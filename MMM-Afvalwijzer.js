@@ -1,65 +1,58 @@
-// MagicMirror Module: MMM-AfvalWijzer
-// This module displays the garbage collection schedule for Afvalwijzer.
+/* MagicMirror Module: MMM-Afvalwijzer
+ * This module displays the waste collection schedule for your area.
+ */
 
-// Load dependencies
-const Module = require('magicmirror-module').Module;
-const fetch = require('node-fetch');
-
-// Define the module
-module.exports = {
-    // Default configuration
+Module.register("MMM-Afvalwijzer", {
+    // Default module config.
     defaults: {
-        apiKey: 'YOUR_API_KEY',
-        url: 'https://api.afvalwijzer.nl/schedule',
-        updateInterval: 600000, // 10 minutes
-        displayFormat: 'text', // Options: 'text', 'json'
+        apiKey: "YOUR_API_KEY",
+        updateInterval: 600000, // Every 10 minutes
+        url: "https://api.example.com/Afvalwijzer"
     },
 
-    // Create the module
-    create: function (config) {
-        var self = this;
-
-        // Initialize the module
-        self.start();
-
-        // Load the configuration
-        self.config = Object.assign({}, self.defaults, config);
-
-        // Fetch the schedule
-        self.fetchSchedule();
-    },
-
-    // Start the module
     start: function () {
-        console.log('Starting module: ' + module.name);
+        Log.info("Starting module: " + this.name);
+        this.scheduleUpdate();
     },
 
-    // Fetch the schedule from Afvalwijzer API
+    getDom: function () {
+        var wrapper = document.createElement("div");
+        wrapper.innerHTML = "Fetching waste collection schedule...";
+        return wrapper;
+    },
+
+    getStyles: function () {
+        return ["MMM-Afvalwijzer.css"];
+    },
+
+    scheduleUpdate: function () {
+        var self = this;
+        setInterval(function () {
+            self.updateDom();
+        }, this.config.updateInterval);
+    },
+
     fetchSchedule: function () {
-        fetch(this.config.url)
-            .then(response => response.json())
-            .then(data => {
-                if (this.config.displayFormat === 'text') {
-                    this.displayScheduleText(data);
-                } else {
-                    this.displayScheduleJson(data);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching schedule:', error);
-            });
+        var self = this;
+        var url = this.config.url + "?apiKey=" + this.config.apiKey;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var schedule = JSON.parse(xhr.responseText);
+                self.updateDom(schedule);
+            }
+        };
+        xhr.send();
     },
 
-    // Display the schedule as text
-    displayScheduleText: function (data) {
-        var scheduleText = 'Garbage Collection Schedule:\n';
-        // Process and format the schedule data
-        // Example: scheduleText += 'Next collection: ' + data.nextCollectionDate + '\n';
-        console.log(scheduleText);
-    },
-
-    // Display the schedule as JSON
-    displayScheduleJson: function (data) {
-        console.log(JSON.stringify(data, null, 2));
+    updateDom: function (schedule) {
+        var wrapper = document.createElement("div");
+        if (schedule) {
+            wrapper.innerHTML = "Next collection: " + schedule.nextCollectionDate;
+        } else {
+            wrapper.innerHTML = "Fetching waste collection schedule...";
+        }
+        return wrapper;
     }
-};
+});
