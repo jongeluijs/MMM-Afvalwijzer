@@ -6,6 +6,8 @@ Module.register("MMM-Afvalwijzer", {
     // Default module config.
     defaults: {
         apiKey: "YOUR_API_KEY",
+        postalCode: "5555AA",
+        housenumber: "1",
         updateInterval: 600000, // Every 10 minutes
         url: "https://api.example.com/Afvalwijzer"
     },
@@ -34,7 +36,7 @@ Module.register("MMM-Afvalwijzer", {
 
     fetchSchedule: function () {
         var self = this;
-        var url = this.config.url + "?apiKey=" + this.config.apiKey;
+        var url = "https://api.mijnafvalwijzer.nl/webservices/appsinput/?apiKey=" + this.config.apiKey + "&method=postcodecheck&postcode=" + this.config.postalCode + "&street=&huisnummer=" + this.config.huisNummer + "&toevoeging=&app_name=afvalwijzer&platform=web&afval";
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true);
         xhr.onreadystatechange = function () {
@@ -49,7 +51,7 @@ Module.register("MMM-Afvalwijzer", {
     updateDom: function (schedule) {
         var wrapper = document.createElement("div");
         if (schedule) {
-            wrapper.innerHTML = "Next collection: " + schedule.nextCollectionDate;
+            wrapper.innerHTML = "Next collection: " + schedule.ophaaldagen.data[0].date;
         } else {
             wrapper.innerHTML = "Fetching waste collection schedule...";
         }
