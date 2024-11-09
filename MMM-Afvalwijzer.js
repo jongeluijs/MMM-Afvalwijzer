@@ -43,6 +43,7 @@ Module.register("MMM-Afvalwijzer", {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var schedule = JSON.parse(xhr.responseText);
                 self.updateDom(schedule);
+                log.info(schedule)
             }
         };
         xhr.send();
