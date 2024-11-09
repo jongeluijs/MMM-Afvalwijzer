@@ -20,10 +20,12 @@ Module.register("MMM-Afvalwijzer", {
     getDom: function () {
         var wrapper = document.createElement("div");
         wrapper.innerHTML = "Fetching waste collection schedule...";
+        Log.info("Afvalwijzer: getDom")
         return wrapper;
     },
 
     getStyles: function () {
+        Log.info("Afvalwijzer: getStyles")
         return ["MMM-Afvalwijzer.css"];
     },
 
@@ -32,6 +34,7 @@ Module.register("MMM-Afvalwijzer", {
         setInterval(function () {
             self.updateDom();
         }, this.config.updateInterval);
+        Log.info("Afvalwijzer: scheduleUpdate")
     },
 
     fetchSchedule: function () {
@@ -43,10 +46,11 @@ Module.register("MMM-Afvalwijzer", {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 var schedule = JSON.parse(xhr.responseText);
                 self.updateDom(schedule);
-                log.info(schedule)
+                Log.info(schedule)
             }
         };
         xhr.send();
+        Log.info("Afvalwijzer: fetchSchedule")
     },
 
     updateDom: function (schedule) {
@@ -56,6 +60,7 @@ Module.register("MMM-Afvalwijzer", {
         } else {
             wrapper.innerHTML = "Fetching waste collection schedule...";
         }
+        Log.info("Afvalwijzer: updateDom")
         return wrapper;
     }
 });
