@@ -39,7 +39,7 @@ Module.register("MMM-Afvalwijzer", {
         element.className = "myContent"
         element.innerHTML = "Hello, World! "
         var subElement = document.createElement("p")
-        subElement.innerHTML = "Count: "
+        subElement.innerHTML = "Count: " + this.count
         subElement.id = "COUNT"
         element.appendChild(subElement)
         return element
