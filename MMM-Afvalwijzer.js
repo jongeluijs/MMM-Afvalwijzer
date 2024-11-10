@@ -14,53 +14,19 @@ Module.register("MMM-Afvalwijzer", {
 
     start: function () {
         Log.info("Starting module: " + this.name);
-        this.scheduleUpdate();
+        this.count=0
+        setInterval(function () {
+            self.getDom()
+        }, this.config.updateInterval)
     },
 
     getDom: function () {
         var wrapper = document.createElement("div");
-        wrapper.innerHTML = "Fetching waste collection schedule...";
-        Log.info("Afvalwijzer: getDom")
+        wrapper.innerHTML = "Fetching waste collection schedule... " + this.count;
+        Log.info("Afvalwijzer: getDom " + this.count)
+        this.count++
         return wrapper;
     },
 
-    getStyles: function () {
-        Log.info("Afvalwijzer: getStyles")
-        return ["MMM-Afvalwijzer.css"];
-    },
 
-    scheduleUpdate: function () {
-        var self = this;
-        setInterval(function () {
-            self.updateDom();
-        }, this.config.updateInterval);
-        Log.info("Afvalwijzer: scheduleUpdate")
-    },
-
-    fetchSchedule: function () {
-        var self = this;
-        var url = "https://api.mijnafvalwijzer.nl/webservices/appsinput/?apiKey=" + this.config.apiKey + "&method=postcodecheck&postcode=" + this.config.postalCode + "&street=&huisnummer=" + this.config.huisNummer + "&toevoeging=&app_name=afvalwijzer&platform=web&afval";
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var schedule = JSON.parse(xhr.responseText);
-                self.updateDom(schedule);
-                Log.info(schedule)
-            }
-        };
-        xhr.send();
-        Log.info("Afvalwijzer: fetchSchedule")
-    },
-
-    updateDom: function (schedule) {
-        var wrapper = document.createElement("div");
-        if (schedule) {
-            wrapper.innerHTML = "Next collection: " + schedule.ophaaldagen.data[0].date;
-        } else {
-            wrapper.innerHTML = "Fetching waste collection schedule...";
-        }
-        Log.info("Afvalwijzer: updateDom")
-        return wrapper;
-    }
 });
