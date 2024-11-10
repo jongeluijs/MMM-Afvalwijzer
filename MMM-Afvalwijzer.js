@@ -17,15 +17,19 @@ Module.register("MMM-Afvalwijzer", {
         this.count=0
         setInterval(function () {
             self.getDom()
-        }, this.config.updateInterval)
+            this.count++
+        }, 60 * 1000)
     },
 
     getDom: function () {
-        var wrapper = document.createElement("div");
-        wrapper.innerHTML = "Fetching waste collection schedule... " + this.count;
-        Log.info("Afvalwijzer: getDom " + this.count)
-        this.count++
-        return wrapper;
+        var element = document.createElement("div")
+        element.className = "myContent"
+        element.innerHTML = "Hello, World! " + this.config.postalCode
+        var subElement = document.createElement("p")
+        subElement.innerHTML = "Count:" + this.count
+        subElement.id = "COUNT"
+        element.appendChild(subElement)
+        return element
     },
 
 
