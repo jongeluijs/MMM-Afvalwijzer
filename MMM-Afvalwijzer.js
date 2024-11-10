@@ -16,12 +16,14 @@ Module.register("MMM-Afvalwijzer", {
         Log.info("Starting module: " + this.name);
         this.count=0
         var timer = setInterval(()=>{
+            Log.info("Afvalwijzer interval " + this.count)
             this.updateDom()
             this.count++
           }, 1000)
     },
 
     updateDom: function () {
+        Log.info("Afvalwijzer updateDom " + this.count)
         var element = document.createElement("div")
         element.className = "myContent"
         element.innerHTML = "Hello, World! " + this.config.postalCode
