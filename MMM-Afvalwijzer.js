@@ -34,12 +34,12 @@ Module.register("MMM-Afvalwijzer", {
             }
         };
         xhr.send();
-        xhr.getResponseHeader()
+
         var element = document.createElement("div")
         element.className = "myContent"
         element.innerHTML = "Hello, World! "
         var subElement = document.createElement("p")
-        subElement.innerHTML = "Count: " + xhr.getResponseHeader()
+        subElement.innerHTML = "Count: "
         subElement.id = "COUNT"
         element.appendChild(subElement)
         return element
