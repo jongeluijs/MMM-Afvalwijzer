@@ -13,22 +13,22 @@ Module.register("MMM-Afvalwijzer", {
     },
 
     start: function () {
-        Log.info("Starting module: Afvalwijzer");
+        Log.info("CdJ: Starting module: Afvalwijzer");
         this.count=0
         var timer = setInterval(()=>{
-            Log.info("Afvalwijzer setInterval")
+            Log.info("CdJ: Afvalwijzer setInterval" + this.count)
             this.updateDom()
             this.count++
           }, 1000)
     },
 
     getDom: function () {
-        Log.info("Afvalwijzer updateDom ")
+        Log.info("CdJ: Afvalwijzer updateDom " + this.count)
         var element = document.createElement("div")
         element.className = "myContent"
         element.innerHTML = "Hello, World! "
         var subElement = document.createElement("p")
-        subElement.innerHTML = "Count: "
+        subElement.innerHTML = "Count: " + this.count
         subElement.id = "COUNT"
         element.appendChild(subElement)
         return element
