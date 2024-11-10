@@ -33,7 +33,7 @@ Module.register("MMM-Afvalwijzer", {
                 self.updateDom(schedule);
             }
         };
-        xhr.send();
+        // xhr.send();
 
         var element = document.createElement("div")
         element.className = "myContent"
@@ -43,7 +43,7 @@ Module.register("MMM-Afvalwijzer", {
         subElement.id = "COUNT"
         element.appendChild(subElement)
         return element
-    },
+    }
 
 
 });
