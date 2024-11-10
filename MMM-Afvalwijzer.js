@@ -26,9 +26,9 @@ Module.register("MMM-Afvalwijzer", {
         Log.info("Afvalwijzer updateDom " + this.count)
         var element = document.createElement("div")
         element.className = "myContent"
-        element.innerHTML = "Hello, World! " + this.config.postalCode
+        element.innerHTML = "Hello, World! "
         var subElement = document.createElement("p")
-        subElement.innerHTML = "Count:" + this.count
+        subElement.innerHTML = "Count: " + this.count
         subElement.id = "COUNT"
         element.appendChild(subElement)
         return element
